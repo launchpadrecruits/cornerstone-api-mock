@@ -22,8 +22,8 @@ service: csa
 
 provider:
   name: aws
-#  runtime: dotnetcore3.1
-  runtime: provided
+  runtime: dotnetcore3.1
+# runtime: provided
   environment:
     LAMBDA_NET_SERIALIZER_DEBUG: "true"
     
@@ -56,7 +56,7 @@ package:
 
 functions:
   main:
-    handler: not-required
+    handler: lp-cs-api::csapi.LambdaEntryPoint::FunctionHandlerAsync
 
     # you can add packaging information here
     package:

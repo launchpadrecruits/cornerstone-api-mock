@@ -11,6 +11,5 @@
   "framework": "netcoreapp3.1",
   "function-runtime": "dotnetcore3.1",
   "function-memory-size": 256,
-  "function-timeout": 30,
-  "msbuild-parameters": "--self-contained true /p:AssemblyName=bootstrap"
+  "function-timeout": 30
 }
