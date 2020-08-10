@@ -37,9 +37,10 @@ namespace csapi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
-                
+
                 endpoints.UseSoapEndpoint<Service>("/Service.asmx", new BasicHttpBinding());
 
+                endpoints.MapControllers();
             });
         }
     }

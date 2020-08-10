@@ -12,6 +12,9 @@
 # Happy Coding!
 
 service: csa
+
+plugins:
+  - serverless-pseudo-parameters
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -23,10 +26,17 @@ service: csa
 provider:
   name: aws
   runtime: dotnetcore3.1
-# runtime: provided
+  stage: ${self:opt.stage, 'dev'}
+  region: us-east-1
   environment:
-    LAMBDA_NET_SERIALIZER_DEBUG: "true"
-    
+    STAGE: ${self:provider.stage,'dev'}
+    BASE_URL: https://5s99go0br9.execute-api.us-east-1.amazonaws.com/dev
+    TOPIC_ARN: "arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:cs-api-${self:provider.stage}"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "*"
+      Resource: "*"
+
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -56,7 +66,7 @@ package:
 
 functions:
   main:
-    handler: lp-cs-api::csapi.LambdaEntryPoint::FunctionHandlerAsync
+    handler: csapi::csapi.LambdaEntryPoint::FunctionHandlerAsync
 
     # you can add packaging information here
     package:
@@ -122,3 +132,24 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+
+
+resources:
+    Resources:
+      Table:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          TableName: "cs-req-${self:provider.stage}"
+          AttributeDefinitions:
+            - AttributeName: id
+              AttributeType: S
+          KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+      SNSTopic:
+        Type: AWS::SNS::Topic
+        Properties:
+          TopicName: "cs-api-${self:provider.stage}"

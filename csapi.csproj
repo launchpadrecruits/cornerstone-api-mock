@@ -12,7 +12,18 @@
       <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
       <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.1.1" />
       <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.7.0" />
+      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.106.44" />
+      <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.101.190" />
+      <PackageReference Include="AWSSDK.SimpleNotificationService.NetCore.Support" Version="1.0.2" />
       <PackageReference Include="SoapCore" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Web.config">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
